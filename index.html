@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>p5.js fun</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+  </head>
+
+  <body>
+    <select id="scriptSelector">
+      <option value="starfield.js">Starfield</option>
+      <option value="opposite-world.js">Opposite world</option>
+    </select>
+
+    <script id="dynamicScript"></script>
+
+    <script>
+      // Function to get query parameter by name
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      // Set the script source based on the query parameter
+      const scriptName = getQueryParam("script") || "starfield.js";
+      document.getElementById("dynamicScript").src = scriptName;
+
+      // Set the dropdown to the correct value
+      document.getElementById("scriptSelector").value = scriptName;
+
+      // Add event listener to the dropdown
+      document
+        .getElementById("scriptSelector")
+        .addEventListener("change", function () {
+          const selectedScript = this.value;
+          window.location.search = "?script=" + selectedScript;
+        });
+    </script>
+  </body>
+</html>
