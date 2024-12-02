@@ -10,6 +10,7 @@
 
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
+    <script src="open-simplex.js"></script>
   </head>
 
   <body>
@@ -17,6 +18,8 @@
       <option value="warp-speed.js">Warp Speed</option>
       <option value="menger-sponge.js">Menger Sponge</option>
       <option value="opposite-world.js">Opposite World</option>
+      <option value="dot-loop.js">Dot Loop</option>
+      <option value="noise-loop.js">Noise Loop</option>
     </select>
 
     <script id="dynamicScript"></script>
@@ -24,24 +27,24 @@
     <script>
       // Function to get query parameter by name
       function getQueryParam(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get(name)
       }
 
       // Set the script source based on the query parameter
-      const scriptName = getQueryParam("script") || "warp-speed.js";
-      document.getElementById("dynamicScript").src = scriptName;
+      const scriptName = getQueryParam("script") || "warp-speed.js"
+      document.getElementById("dynamicScript").src = scriptName
 
       // Set the dropdown to the correct value
-      document.getElementById("scriptSelector").value = scriptName;
+      document.getElementById("scriptSelector").value = scriptName
 
       // Add event listener to the dropdown
       document
         .getElementById("scriptSelector")
         .addEventListener("change", function () {
-          const selectedScript = this.value;
-          window.location.search = "?script=" + selectedScript;
-        });
+          const selectedScript = this.value
+          window.location.search = "?script=" + selectedScript
+        })
     </script>
   </body>
 </html>
