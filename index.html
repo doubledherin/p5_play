@@ -22,6 +22,7 @@
       <option value="sketches/purple-rain.js">Purple Rain</option>
       <option value="sketches/space-invaders.js">Space Invaders</option>
       <option value="sketches/mitosis.js">Mitosis</option>
+      <option value="sketches/circle-pattern.js">Circlicious</option>
     </select>
 
     <script id="dynamicScript"></script>
@@ -34,8 +35,7 @@
       }
 
       // Set the script source based on the query parameter
-      const scriptName = getQueryParam("script") || "sketches/warp-speed.js"
-      console.log("scriptName", scriptName)
+      const scriptName = getQueryParam("script") || "sketches/circle-pattern.js"
       document.getElementById("dynamicScript").src = scriptName
 
       // Set the dropdown to the correct value
