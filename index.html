@@ -23,6 +23,8 @@
       <option value="sketches/space-invaders.js">Space Invaders</option>
       <option value="sketches/mitosis.js">Mitosis</option>
       <option value="sketches/circle-pattern.js">Circlicious</option>
+      <option value="sketches/bubble-wrap.js">Bubble Wrap</option>
+      <option value="sketches/perlin-flower.js">Perlin Flower</option>
     </select>
 
     <script id="dynamicScript"></script>
@@ -31,11 +33,13 @@
       // Function to get query parameter by name
       function getQueryParam(name) {
         const urlParams = new URLSearchParams(window.location.search)
+        console.log(urlParams)
+        urlParams.append("jack", "cool")
         return urlParams.get(name)
       }
 
       // Set the script source based on the query parameter
-      const scriptName = getQueryParam("script") || "sketches/circle-pattern.js"
+      const scriptName = getQueryParam("script") || "sketches/perlin-flower.js"
       document.getElementById("dynamicScript").src = scriptName
 
       // Set the dropdown to the correct value
