@@ -33,8 +33,6 @@
       // Function to get query parameter by name
       function getQueryParam(name) {
         const urlParams = new URLSearchParams(window.location.search)
-        console.log(urlParams)
-        urlParams.append("jack", "cool")
         return urlParams.get(name)
       }
 

@@ -1,74 +1,101 @@
-var centerX
-var centerY
-var radius
-var totalDegrees = 360
-var direction
-var rotation
-var r = 255
-var g = 128
-var b = 128
+// the value of radius is directly proportional to how wide
+// the 'flower' opens. It oscillates between 0 and the window height/2
+let radius = 1
+
+let bloomDirection = "out"
+
+// the bloom velocity controls the speed at which the flower blooms, then withers, then blooms...
+let bloomVelocity = 0.65
+
+let rotation = 24.0
+let rotationIncrement = 0.1
+let r = 255
+let rIncrement = 1
+let g = 128
+let gIncrement = 1
+let b = 128
+let bIncrement = 1
+let opacityIncrement = 1
 
 function setup() {
-  canvas = createCanvas(window.innerWidth, window.innerHeight)
+  canvas = createCanvas(windowWidth, windowHeight)
   background(0)
-  centerX = width / 2
-  centerY = height / 2
-  radius = 1
   angleMode(DEGREES)
-  translateX = 0
-  translateY = 0
+  noFill()
+  rotationSlider = createSlider(1, 360, 24, 5)
+  rotationSlider.position(10, 10)
+  rotationSlider.size(200)
+
+  // we don't need to declare opacity as a global variable
+  // because it's a built-in p5.js variable
   opacity = 255
-  direction = "out"
-  rotation = 24.0
 }
 
 function draw() {
-  noFill()
   stroke(r, g, b, opacity)
+
   beginShape()
-  for (let i = 0; i <= totalDegrees; i++) {
-    var noiseFactor = noise(i / 40, frameCount / 320)
-    var x = centerX + radius * cos(i) * noiseFactor
-    var y = centerY + radius * sin(i) * noiseFactor
-    curveVertex(x, y)
+  for (let i = 0; i <= 360; i++) {
+    const nx = i / 40
+    const ny = frameCount / 320
+
+    // The noise function can take 1, 2, or 3 parameters, signifying x, y, and z coordinates of the
+    // Perlin noise spatial dimensions. The noise function returns a value between 0 and 1.
+    let noiseFactor = noise(nx, ny)
+
+    // noiseFactor is what gives the flower its semi-random, unusual shapes.
+    // if noiseFactor is 1, the 'flower' would just be circular
+    let x = width / 2 + radius * cos(i) * noiseFactor
+    let y = height / 2 + radius * sin(i) * noiseFactor
+    console.log("x", x, "y", y)
+    vertex(x, y)
     rotate(PI / rotation)
   }
   endShape(CLOSE)
-  if (direction == "out") {
-    if (radius > height / 2) {
-      direction = "in"
-    } else {
-      radius += 0.65
-    }
+
+  toggleBlooming()
+  updateRGBA()
+  rotation += rotationIncrement
+}
+
+// The flower blooms 'out' until the radius is greater than the
+// vertical middle of the canvas.
+// Then it blooms 'in' until the radius becomes less than zero,
+// then 'out' again
+function toggleBlooming() {
+  if (radius > 0 && radius < height / 2) {
+    bloomDirection === "out"
+      ? (radius += bloomVelocity)
+      : (radius -= bloomVelocity)
+  } else if (radius > height / 2) {
+    bloomDirection = "in"
+    radius = height / 2 - bloomVelocity
   } else {
-    if (radius <= 0) {
-      radius = 100
-      direction = "out"
-    } else {
-      radius -= 0.65
-    }
+    // radius < 0
+    bloomDirection = "out"
+    radius = bloomVelocity
   }
-  rotation += 0.1
-  if (frameCount > 200) {
-    translateX = 0
-    translateY = 0
-  }
+}
+
+function updateRGBA() {
   if (r > 255) {
-    r = 0
+    r = -rIncrement
   }
   if (g > 255) {
-    g = 0
+    g = -gIncrement
   }
   if (b > 255) {
-    b = 0
+    b = -bIncrement
   }
-  if (opacity == 0) {
+  r += rIncrement
+  g += gIncrement
+  b += bIncrement
+
+  // Changing the opacity gives a more interesting, tulle-like quality
+  // to the flower
+  if (opacity === 0) {
     opacity = 255
+  } else {
+    opacity -= opacityIncrement
   }
-  translateX *= frameCount
-  translateY *= frameCount
-  opacity -= 1
-  r += 1
-  g += 1
-  b += 1
 }
